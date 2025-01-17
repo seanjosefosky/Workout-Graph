@@ -14,4 +14,4 @@ def ConvertReps(wsheet,xlp):
                                 wsheet[f"D{currentrow}"] = float(cell.value)
                 wb.save(xlp)
 
-                  
+# ConvertReps(ws,path.path)
