@@ -1,20 +1,29 @@
-import csv, openpyxl
-from pandas.io.parsers import read_csv
+import csv, openpyxl, path
 
-# CSV - remove empty columns
-path = 'C:/Users/xsoup/Downloads/workouts(1).csv'
-data = read_csv(path)
-filtered_data = data.dropna(axis='columns', how='all')
-path = filtered_data.to_csv('workouts.csv', index=False)
-
-
-# Convert CSV file to XLSX
+csvpath = path.csvpath
+path = path.path
 wb = openpyxl.Workbook()
 ws = wb.active
-with open('workouts.csv') as f:
-    reader = csv.reader(f)
 
-    for row in reader:
-        ws.append(row)
 
-wb.save('workouts.xlsx')
+def FileConversion(cvp,xlp):
+    with open(cvp) as f:
+        reader = csv.reader(f)
+        for row in reader:
+            ws.append(row)
+
+    wb.save(xlp)
+    ws.delete_cols(1)
+    ws.delete_cols(2,2)
+    ws.delete_cols(3,2)
+    ws.delete_cols(5,2)
+
+    ws.delete_rows(1)
+
+    wb.save(xlp)
+
+    for cell in ws['A']:
+        cell.value = cell.value[:-7]
+        wb.save(xlp)
+
+# FileConversion(csvpath,path)
