@@ -17,4 +17,4 @@ def ConvertWeight(wsheet,xlp):
                                 wsheet[f"C{currentrow}"] = float(cell.value)
                 wb.save(xlp)
 
-# FillNone(ws,path.path)
+# ConvertWeight(ws,path.path)
