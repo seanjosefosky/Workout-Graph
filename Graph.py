@@ -10,14 +10,26 @@ ws = wb.active
 
 # variables
 dict = consolidate.vol_dict
+titles = []
 linecolor = ['r', 'g', 'b', 'c', 'm', 'y', 'k', 'w']
 line = ['-', '--', '-.']
 
-consolidate.Consolidate(ws,path)
+consolidate.Consolidate(ws)
+consolidate.GetTitles(ws,titles)
 
-
+# print(f"Date: {key[0]}, Title: {key[1]}, Sum: {total}")
 for key, total in dict.items():
-        print(f"Date: {key[0]}, Title: {key[1]}, Sum: {total}")
-        plt.plot(key[0], total, f'o{random.choice(line)}{random.choice(linecolor)}')
-
+        t = 0       
+        if key[1] == titles[t]:    
+                l = 0 # Line design
+                c = 0 # Line color
+                plt.plot(key[0], t, f'o{linecolor[c]}{line[l]}')
+                t += 1
+                if c != len(linecolor):
+                        c += 1
+                else:
+                        c = 0
+                
+print(titles)
+print(dict)
 plt.show()

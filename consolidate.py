@@ -2,15 +2,14 @@ import openpyxl, path
 from openpyxl import Workbook, load_workbook
 from operator import attrgetter
 
-path = path.path
-wb = load_workbook(path)
+wb = load_workbook(path.path)
 ws = wb.active
 
 # Initialize a dictionary to store the sums
 vol_dict = {}
 
 # Iterate over the rows, starting from row 1 (no headers)
-def Consolidate(wsheet,xlp):
+def Consolidate(wsheet):
     for row in wsheet.iter_rows(min_row=1, max_col=5, values_only=True):
         date = row[0]  # Column A (Date)
         title = row[1]  # Column B (Title)
@@ -28,5 +27,11 @@ def Consolidate(wsheet,xlp):
     # for key, total in vol_dict.items():
     #     print(f"Date: {key[0]}, Title: {key[1]}, Sum: {total}")
 
-# Consolidate(ws,path)
+def GetTitles(wsheet,dict):
+    for row in wsheet.iter_rows(min_col=2, max_col=2):
+        for cell in row:
+            if cell.value not in dict: 
+                dict.append(cell.value)
+
+
 

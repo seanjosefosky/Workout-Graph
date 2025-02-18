@@ -1,46 +1,40 @@
-import openpyxl, path, FileConversion, products, convertreps
-import removetreadmill, convertweight, consolidate
+import openpyxl, path, fileconversion, products, integerconversions, removetreadmill, consolidate
 
 from openpyxl import Workbook, load_workbook
 
 csvpath = path.csvpath
 path = path.path
-wb = load_workbook(path)
-ws = wb.active
-
 
 
 
 def main():
     
-    
     # Convert file from csv to xlsx; delete unused columns; remove times from dates
-    FileConversion.FileConversion(csvpath,path)
+    fileconversion.FileConversion(csvpath,path)
     print("File Conversion Done")
-    wb.save(path)
+
+    wb = load_workbook(path)
+    ws = wb.active
 
     # Remove treadmill from file
     removetreadmill.RemoveTreadmill(ws,path)
     print("Treadmills Removed", flush=True)
     wb.save(path)
 
-    # Convert  weight from strings to floats; convert NoneTypes to 0
-    convertweight.ConvertWeight(ws,path)
-    print("Weights Ready", flush=True)
+    # Converts data from strings to floats; convert NoneTypes to 0
+    integerconversions.ConvertToInt(ws,path)
+    print("Integers converted", flush=True)
     wb.save(path)
-
-    # Convert reps from strings to floats
-    convertreps.ConvertReps(ws,path)
-    print("Reps Ready", flush=True)
-    wb.save(path)
-
+    
     # Get the volume of weight per set
     products.Products(ws,path)
     print("Set Volumes Calculated", flush=True)
     wb.save(path)
 
+    # TODO: Consolidate might need a different data structure.
+
     # Consolidate
-    consolidate.Consolidate(ws,path)
+    consolidate.Consolidate(ws)
     print("Set Volumes Consolidated")
 
     # Exercises with the same title need to be graphed as the same color
