@@ -1,35 +1,40 @@
-import random, consolidate, openpyxl, path
-
-from openpyxl import load_workbook
+import random, path
+import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
 
-path = path.path
-wb = load_workbook(path)
-ws = wb.active
+def Graph():
+    # Data
+    csv = path.csv_new
+    df = pd.read_csv(csv)
 
-# variables
-dict = consolidate.vol_dict
-titles = []
-linecolor = ['r', 'g', 'b', 'c', 'm', 'y', 'k', 'w']
-line = ['-', '--', '-.']
+    date = df['date']
+    exercise = df['exercise_title']
+    volume = df['set_volume']
 
-consolidate.Consolidate(ws)
-consolidate.GetTitles(ws,titles)
+    # Graphing
+    # # Sort data by date
+    df = df.sort_values(by='date')
+                        
+    # Group data by exercise_title
+    grouped = df.groupby('exercise_title')
 
-# print(f"Date: {key[0]}, Title: {key[1]}, Sum: {total}")
-for key, total in dict.items():
-        t = 0       
-        if key[1] == titles[t]:    
-                l = 0 # Line design
-                c = 0 # Line color
-                plt.plot(key[0], t, f'o{linecolor[c]}{line[l]}')
-                t += 1
-                if c != len(linecolor):
-                        c += 1
-                else:
-                        c = 0
-                
-print(titles)
-print(dict)
-plt.show()
+    # Create a plot
+    fig, ax = plt.subplots()
+
+    # Plot each exercise's data
+    for name, group in grouped:
+        ax.plot(group['date'], group['set_volume'], marker='o', linestyle='-', label=name)
+        # print(group)
+
+    # Graph UI
+    ax.legend()
+
+    ax.set_title('Workout Progression')
+    ax.set_xlabel('Date')
+    ax.set_ylabel('Volume (lbs)')
+
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+
+    plt.show()
+    

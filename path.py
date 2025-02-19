@@ -1,2 +1,2 @@
-path = ('workouts.xlsx')
-csvpath = ('workouts.csv')
+csv_path = ('workouts.csv')
+csv_new = ('workouts(2).csv')
